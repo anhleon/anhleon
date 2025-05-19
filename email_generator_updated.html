@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Trình tạo email ngẫu nhiên</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<style>
+    body { font-family: Arial, sans-serif; margin: 20px; max-width: 600px; }
+    textarea, select, input, button { width: 100%; margin-top: 10px; padding: 10px; font-size: 16px; }
+    textarea { height: 60px; }
+  </style>
+</head>
+<body>
+<h2>Trình tạo Email Ngẫu nhiên</h2>
+<label for="domainSelect">Chọn đuôi email:</label>
+<select id="domainSelect" onchange="toggleCustomInput()">
+<option value="@gmail.com">@gmail.com</option>
+<option value="@yahoo.com">@yahoo.com</option>
+<option value="@outlook.com">@outlook.com</option>
+<option value="custom">Tùy chỉnh</option>
+</select>
+<input id="customDomain" placeholder="Nhập đuôi email tùy chỉnh" style="display:none;" type="text"/>
+<label for="digitLength">Số lượng chữ số sau tên:</label>
+<select id="digitLength">
+<option selected value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+</select>
+<label for="separator">Ký tự phân cách (mặc định là không có):</label>
+<input id="separator" maxlength="1" placeholder="Nhập ký tự phân cách (ví dụ: -, ., _ hoặc để trống)" type="text"/>
+<button onclick="generateEmail()">Tạo và sao chép email</button>
+<textarea id="emailBox" placeholder="Email sẽ hiển thị ở đây..." readonly></textarea>
+<script>
+  // danh sách tên không dấu viết thường
+  const firstNames = ['an', 'bao', 'chau', 'dung', 'hai', 'khanh', 'lam', 'minh', 'nam', 'phuc', 'quan', 'son', 'tai', 'tuan', 'viet', 'vinh', 'anh', 'bich', 'diem', 'hanh', 'hoa', 'huong', 'lan', 'linh', 'mai', 'ngoc', 'phuong', 'thao', 'trang', 'tuyet', 'john', 'emily', 'michael', 'sarah', 'robert', 'jessica', 'daniel', 'laura', 'kevin', 'megan', 'joshua', 'sophia', 'ryan', 'chloe', 'andrew', 'amanda', 'james', 'olivia', 'ethan', 'grace', 'liam', 'emma', 'noah', 'isabella'];
+  const lastNames = ['nguyen', 'tran', 'le', 'pham', 'hoang', 'huynh', 'phan', 'vu', 'vo', 'dang', 'bui', 'do', 'ho', 'ngo', 'duong', 'ly', 'smith', 'johnson', 'williams', 'brown', 'jones', 'garcia', 'miller', 'davis', 'martinez', 'hernandez', 'lopez', 'gonzalez', 'wilson', 'anderson', 'thomas', 'taylor', 'moore', 'jackson', 'martin', 'lee', 'perez', 'thompson', 'white', 'harris', 'clark', 'lewis', 'robinson', 'walker', 'young', 'allen', 'king'];
+
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function toggleCustomInput() {
+    const select = document.getElementById("domainSelect");
+    const customInput = document.getElementById("customDomain");
+    customInput.style.display = select.value === "custom" ? "block" : "none";
+  }
+
+  function getSelectedDomain() {
+    const select = document.getElementById("domainSelect");
+    if (select.value === "custom") {
+      let custom = document.getElementById("customDomain").value.trim();
+      if (!custom.startsWith("@")) custom = "@" + custom;
+      return custom;
+    }
+    return select.value;
+  }
+
+  function generateEmail() {
+    const first = firstNames[Math.floor(Math.random() * firstNames.length)];
+    const last = lastNames[Math.floor(Math.random() * lastNames.length)];
+    const digitLen = parseInt(document.getElementById("digitLength").value);
+    let separator = document.getElementById("separator").value.trim();
+    if (separator.length > 1) separator = separator.charAt(0);
+    const number = getRandomInt(Math.pow(10, digitLen - 1), Math.pow(10, digitLen) - 1);
+    const domain = getSelectedDomain();
+
+    const nameFormats = [
+      first + last,
+      last + first,
+      first + separator + last,
+      last + separator + first
+    ];
+    const name = nameFormats[Math.floor(Math.random() * nameFormats.length)];
+    const email = name + separator + number + domain;
+
+    const box = document.getElementById("emailBox");
+    box.value = email;
+    box.focus();
+    box.select();
+    document.execCommand("copy");
+    box.blur();
+  }
+</script>
+</body>
+</html>

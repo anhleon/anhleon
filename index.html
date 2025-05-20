@@ -20,7 +20,6 @@
     <option value="@outlook.com">@outlook.com</option>
     <option value="custom">Tùy chỉnh</option>
   </select>
-  <input id="customDomain" type="text" placeholder="Nhập đuôi email tùy chỉnh" style="display:none;"/>
 
   <label for="separator">Ký tự phân cách (mặc định là không có):</label>
   <input id="separator" type="text" maxlength="1" placeholder="Ví dụ: -, ., _ hoặc để trống"/>
@@ -35,6 +34,13 @@
   </select>
 
   <button onclick="generateEmail()">Tạo và sao chép email</button>
+
+  <!-- Custom domain input moved here -->
+  <div id="customDomainWrapper" style="display:none;">
+    <label for="customDomain">Nhập đuôi email tùy chỉnh:</label>
+    <input id="customDomain" type="text" placeholder="Ví dụ: @tenmien.com"/>
+  </div>
+
   <textarea id="emailBox" placeholder="Email sẽ hiển thị ở đây..." readonly></textarea>
 
   <script>
@@ -47,8 +53,8 @@
 
     function toggleCustomInput() {
       const select = document.getElementById("domainSelect");
-      const customInput = document.getElementById("customDomain");
-      customInput.style.display = select.value === "custom" ? "block" : "none";
+      const wrapper = document.getElementById("customDomainWrapper");
+      wrapper.style.display = select.value === "custom" ? "block" : "none";
     }
 
     function getSelectedDomain() {
@@ -99,4 +105,3 @@
   </script>
 </body>
 </html>
-

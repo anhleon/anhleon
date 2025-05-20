@@ -23,7 +23,16 @@
   <input id="customDomain" type="text" placeholder="Nhập đuôi email tùy chỉnh" style="display:none;"/>
 
   <label for="separator">Ký tự phân cách (mặc định là không có):</label>
-  <input id="separator" type="text" maxlength="1" placeholder="Nhập ký tự phân cách (ví dụ: -, ., _ hoặc để trống)"/>
+  <input id="separator" type="text" maxlength="1" placeholder="Ví dụ: -, ., _ hoặc để trống"/>
+
+  <label for="customName">Nhập tên tùy chọn (bỏ trống nếu muốn ngẫu nhiên):</label>
+  <input id="customName" type="text" placeholder="Ví dụ: phantrang"/>
+
+  <label for="suffixType">Chọn loại hậu tố:</label>
+  <select id="suffixType">
+    <option value="digits" selected>4 số ngẫu nhiên</option>
+    <option value="birthyear">Năm sinh (1980–2003)</option>
+  </select>
 
   <button onclick="generateEmail()">Tạo và sao chép email</button>
   <textarea id="emailBox" placeholder="Email sẽ hiển thị ở đây..." readonly></textarea>
@@ -55,9 +64,19 @@
     function generateEmail() {
       const first = firstNames[Math.floor(Math.random() * firstNames.length)];
       const last = lastNames[Math.floor(Math.random() * lastNames.length)];
+      const customName = document.getElementById("customName").value.trim().toLowerCase();
       let separator = document.getElementById("separator").value.trim();
       if (separator.length > 1) separator = separator.charAt(0);
-      const birthYear = getRandomInt(1995, 2003);
+
+      const suffixType = document.getElementById("suffixType").value;
+      let suffix = "";
+
+      if (suffixType === "digits") {
+        suffix = getRandomInt(1000, 9999);
+      } else if (suffixType === "birthyear") {
+        suffix = getRandomInt(1980, 2003);
+      }
+
       const domain = getSelectedDomain();
 
       const nameFormats = [
@@ -66,8 +85,9 @@
         first + separator + last,
         last + separator + first
       ];
-      const name = nameFormats[Math.floor(Math.random() * nameFormats.length)];
-      const email = name + separator + birthYear + domain;
+      const name = customName || nameFormats[Math.floor(Math.random() * nameFormats.length)];
+
+      const email = name + separator + suffix + domain;
 
       const box = document.getElementById("emailBox");
       box.value = email;
@@ -79,3 +99,4 @@
   </script>
 </body>
 </html>
+

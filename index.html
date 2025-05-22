@@ -1,25 +1,59 @@
-
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8"/>
-  <title>Random Email Generator</title>
+  <title>Trình tạo email ngẫu nhiên</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; max-width: 600px; }
-    textarea, input, button { width: 100%; margin-top: 10px; padding: 10px; font-size: 16px; }
+    textarea, select, input, button { width: 100%; margin-top: 10px; padding: 10px; font-size: 16px; }
     textarea { height: 60px; }
     .note { color: #888; font-size: 14px; margin-bottom: 10px;}
+    .section {margin-top: 30px;}
   </style>
 </head>
 <body>
-  <h2>Random Email Generator</h2>
-  <div class="note">Email sẽ có dạng: <b>tenhoXXXX@domain</b> (Tên, họ và domain đều random, 4 số cuối ngẫu nhiên)</div>
-  <button onclick="generateRandomEmail()">Tạo và sao chép email ngẫu nhiên</button>
+  <h2>Trình tạo Email Ngẫu nhiên</h2>
+
+  <!-- Phần cũ -->
+  <label for="domainSelect">Chọn đuôi email:</label>
+  <select id="domainSelect" onchange="toggleCustomInput()">
+    <option value="@gmail.com">@gmail.com</option>
+    <option value="@yahoo.com">@yahoo.com</option>
+    <option value="@outlook.com">@outlook.com</option>
+    <option value="custom">Tùy chỉnh</option>
+  </select>
+
+  <label for="separator">Ký tự phân cách (mặc định là không có):</label>
+  <input id="separator" type="text" maxlength="1" placeholder="Ví dụ: -, ., _ hoặc để trống"/>
+
+  <label for="customName">Nhập tên tùy chọn (bỏ trống nếu muốn ngẫu nhiên):</label>
+  <input id="customName" type="text" placeholder="Ví dụ: phantrang"/>
+
+  <label for="suffixType">Chọn loại hậu tố:</label>
+  <select id="suffixType">
+    <option value="digits" selected>4 số ngẫu nhiên</option>
+    <option value="birthyear">Năm sinh (1980–2003)</option>
+  </select>
+
+  <div id="customDomainWrapper" style="display:none;">
+    <label for="customDomain">Nhập đuôi email tùy chỉnh:</label>
+    <input id="customDomain" type="text" placeholder="Ví dụ: @tenmien.com"/>
+  </div>
+
+  <button onclick="generateEmail()">Tạo và sao chép email</button>
   <textarea id="emailBox" placeholder="Email sẽ hiển thị ở đây..." readonly></textarea>
 
+  <!-- Phần mới: Random domain lớn -->
+  <div class="section">
+    <h3>Tạo Email Ngẫu nhiên với Domain Đa dạng</h3>
+    <div class="note">Email sẽ có dạng: <b>tenhoXXXX@domain</b> (Tên, họ và domain đều random, 4 số cuối ngẫu nhiên)</div>
+    <button onclick="generateRandomEmail()">Tạo và sao chép email ngẫu nhiên</button>
+    <textarea id="randomEmailBox" placeholder="Email sẽ hiển thị ở đây..." readonly></textarea>
+  </div>
+
   <script>
-    // Danh sách domain phổ biến (bạn có thể bổ sung thêm)
+    // Danh sách domain lớn
     const emailDomains = [
       "gmail.com", "yahoo.com", "outlook.com", "hotmail.com", "aol.com", "mail.com", "icloud.com",
       "uwaterloo.ca", "msstate.edu", "princeton.edu", "isu.edu", "williams.edu", "csu.edu.au",
@@ -64,6 +98,59 @@
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
+    function toggleCustomInput() {
+      const select = document.getElementById("domainSelect");
+      const wrapper = document.getElementById("customDomainWrapper");
+      wrapper.style.display = select.value === "custom" ? "block" : "none";
+    }
+
+    function getSelectedDomain() {
+      const select = document.getElementById("domainSelect");
+      if (select.value === "custom") {
+        let custom = document.getElementById("customDomain").value.trim();
+        if (!custom.startsWith("@")) custom = "@" + custom;
+        return custom;
+      }
+      return select.value;
+    }
+
+    function generateEmail() {
+      const first = firstNames[Math.floor(Math.random() * firstNames.length)];
+      const last = lastNames[Math.floor(Math.random() * lastNames.length)];
+      const customName = document.getElementById("customName").value.trim().toLowerCase();
+      let separator = document.getElementById("separator").value.trim();
+      if (separator.length > 1) separator = separator.charAt(0);
+
+      const suffixType = document.getElementById("suffixType").value;
+      let suffix = "";
+
+      if (suffixType === "digits") {
+        suffix = getRandomInt(1000, 9999);
+      } else if (suffixType === "birthyear") {
+        suffix = getRandomInt(1980, 2003);
+      }
+
+      const domain = getSelectedDomain();
+
+      const nameFormats = [
+        first + last,
+        last + first,
+        first + separator + last,
+        last + separator + first
+      ];
+      const name = customName || nameFormats[Math.floor(Math.random() * nameFormats.length)];
+
+      const email = name + separator + suffix + domain;
+
+      const box = document.getElementById("emailBox");
+      box.value = email;
+      box.focus();
+      box.select();
+      document.execCommand("copy");
+      box.blur();
+    }
+
+    // Tính năng mới: random domain lớn
     function generateRandomEmail() {
       const first = firstNames[Math.floor(Math.random() * firstNames.length)];
       const last = lastNames[Math.floor(Math.random() * lastNames.length)];
@@ -72,7 +159,7 @@
       const username = first + last + number;
       const email = username + "@" + domain;
 
-      const box = document.getElementById("emailBox");
+      const box = document.getElementById("randomEmailBox");
       box.value = email;
       box.focus();
       box.select();

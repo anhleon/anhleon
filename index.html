@@ -66,7 +66,7 @@
     </div>
     <div class="flex-col full-width">
       <label for="separator">Kí tự phân cách:</label>
-      <input id="separator" type="text" class="full-width" maxlength="1" placeholder="Ví dụ: -, ., _"/>
+      <input id="separator" type="text" class="full-width" maxlength="1" placeholder="Ví dụ: -, ., _ hoặc để trống"/>
     </div>
   </div>
 
@@ -81,11 +81,68 @@
     </div>
   </div>
 
+  <!-- Phần tạo email ngẫu nhiên với các tùy chọn -->
   <div class="section">
     <h3>Tạo Email Ngẫu nhiên với Domain Đa dạng</h3>
     <div class="note">Email sẽ có dạng: <b>tenhoXXXX@domain</b> (Tên, họ và domain đều random, 4 số cuối ngẫu nhiên)</div>
+    
+    <!-- Thêm các tùy chọn cấu trúc và hậu tố cho email ngẫu nhiên -->
+    <div class="flex-row">
+      <div class="flex-col full-width">
+        <label for="randomStructureType">Cấu trúc email:</label>
+        <select id="randomStructureType" class="full-width">
+          <option value="nameSuffix">Tên + Hậu tố</option>
+          <option value="nameLastSuffix">Tên + Họ + Hậu tố</option>
+        </select>
+      </div>
+      <div class="flex-col full-width">
+        <label for="randomSuffixType">Loại hậu tố:</label>
+        <select id="randomSuffixType" class="full-width">
+          <option value="1">1 số ngẫu nhiên</option>
+          <option value="2">2 số ngẫu nhiên</option>
+          <option value="3">3 số ngẫu nhiên</option>
+          <option value="4">4 số ngẫu nhiên</option>
+          <option value="5">5 số ngẫu nhiên</option>
+          <option value="6">6 số ngẫu nhiên</option>
+          <option value="7">7 số ngẫu nhiên</option>
+          <option value="8">8 số ngẫu nhiên</option>
+          <option value="9">9 số ngẫu nhiên</option>
+          <option value="10">10 số ngẫu nhiên</option>
+          <option value="birthyear">Năm sinh (1980–2003)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Chọn đuôi email và ký tự phân cách cho email ngẫu nhiên -->
+    <div class="flex-row">
+      <div class="flex-col full-width">
+        <label for="randomDomainSelect">Đuôi email:</label>
+        <select id="randomDomainSelect" class="full-width" onchange="toggleRandomCustomInput()">
+          <option value="@gmail.com">@gmail.com</option>
+          <option value="@yahoo.com">@yahoo.com</option>
+          <option value="@outlook.com">@outlook.com</option>
+          <option value="custom">Tùy chỉnh</option>
+        </select>
+      </div>
+      <div class="flex-col full-width">
+        <label for="randomSeparator">Kí tự phân cách:</label>
+        <input id="randomSeparator" type="text" class="full-width" maxlength="1" placeholder="Ví dụ: -, ., _ hoặc để trống"/>
+      </div>
+    </div>
+
+    <!-- Tên tùy chọn và đuôi email tùy chỉnh cho email ngẫu nhiên -->
+    <div class="flex-col">
+      <label for="randomCustomName">Tên tùy chọn (bỏ trống nếu muốn ngẫu nhiên):</label>
+      <input id="randomCustomName" type="text" class="full-width" placeholder="Ví dụ: phantrang"/>
+
+      <div id="randomCustomDomainWrapper" style="display:none;">
+        <label for="randomCustomDomain">Đuôi email tùy chỉnh:</label>
+        <input id="randomCustomDomain" type="text" class="full-width" placeholder="Ví dụ: @tenmien.com"/>
+      </div>
+    </div>
+
     <button class="full-width" onclick="generateRandomEmail()">Tạo và sao chép email ngẫu nhiên</button>
-    <textarea id="randomEmailBox" placeholder="Email sẽ hiển thị ở đây..." readonly></textarea>
+    <textarea id="randomEmailBox" class="textarea-small" placeholder="Email sẽ hiển thị ở đây..." readonly></textarea>
   </div>
 
   <script>
@@ -172,10 +229,26 @@
       wrapper.style.display = select.value === "custom" ? "block" : "none";
     }
 
+    function toggleRandomCustomInput() {
+      const select = document.getElementById("randomDomainSelect");
+      const wrapper = document.getElementById("randomCustomDomainWrapper");
+      wrapper.style.display = select.value === "custom" ? "block" : "none";
+    }
+
     function getSelectedDomain() {
       const select = document.getElementById("domainSelect");
       if (select.value === "custom") {
         let custom = document.getElementById("customDomain").value.trim();
+        if (!custom.startsWith("@")) custom = "@" + custom;
+        return custom;
+      }
+      return select.value;
+    }
+
+    function getRandomSelectedDomain() {
+      const select = document.getElementById("randomDomainSelect");
+      if (select.value === "custom") {
+        let custom = document.getElementById("randomCustomDomain").value.trim();
         if (!custom.startsWith("@")) custom = "@" + custom;
         return custom;
       }
@@ -224,10 +297,33 @@
     function generateRandomEmail() {
       const first = firstNames[Math.floor(Math.random() * firstNames.length)];
       const last = lastNames[Math.floor(Math.random() * lastNames.length)];
-      const number = getRandomInt(1000, 9999);
-      const domain = emailDomains[Math.floor(Math.random() * emailDomains.length)];
-      const username = first + last + number;
-      const email = username + "@" + domain;
+      const customName = document.getElementById("randomCustomName").value.trim().toLowerCase();
+      let separator = document.getElementById("randomSeparator").value.trim();
+      if (separator.length > 1) separator = separator.charAt(0);
+
+      const suffixType = document.getElementById("randomSuffixType").value;
+      let suffix = "";
+
+      if (suffixType === "birthyear") {
+        suffix = getRandomInt(1980, 2003);
+      } else {
+        const numDigits = parseInt(suffixType);
+        for (let i = 0; i < numDigits; i++) {
+          suffix += getRandomInt(0, 9).toString();
+        }
+      }
+
+      const domain = getRandomSelectedDomain();
+      const structureType = document.getElementById("randomStructureType").value;
+      let name = "";
+
+      if (structureType === "nameSuffix") {
+        name = customName || first;
+      } else if (structureType === "nameLastSuffix") {
+        name = customName || (first + separator + last);
+      }
+
+      const email = name + separator + suffix + domain;
 
       const box = document.getElementById("randomEmailBox");
       box.value = email;

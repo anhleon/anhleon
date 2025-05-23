@@ -1,3 +1,4 @@
+
 ```html
 <!DOCTYPE html>
 <html>
@@ -29,6 +30,12 @@
 
   <label for="customName">Nhập tên tùy chọn (bỏ trống nếu muốn ngẫu nhiên):</label>
   <input id="customName" type="text" placeholder="Ví dụ: phantrang"/>
+
+  <label for="structureType">Chọn cấu trúc email:</label>
+  <select id="structureType">
+    <option value="nameSuffix">Tên + Hậu tố</option>
+    <option value="nameLastSuffix">Tên + Họ + Hậu tố</option>
+  </select>
 
   <label for="suffixType">Chọn loại hậu tố:</label>
   <select id="suffixType">
@@ -109,20 +116,22 @@
       if (suffixType === "birthyear") {
         suffix = getRandomInt(1980, 2003);
       } else {
-        const numDigits = parseInt(suffixType); // Lấy số lượng số từ dropdown
+        const numDigits = parseInt(suffixType);
         for (let i = 0; i < numDigits; i++) {
           suffix += getRandomInt(0, 9).toString();
         }
       }
 
       const domain = getSelectedDomain();
-      const nameFormats = [
-        first + last,
-        last + first,
-        first + separator + last,
-        last + separator + first
-      ];
-      const name = customName || nameFormats[Math.floor(Math.random() * nameFormats.length)];
+      const structureType = document.getElementById("structureType").value;
+      let name = "";
+
+      if (structureType === "nameSuffix") {
+        name = customName || first;
+      } else if (structureType === "nameLastSuffix") {
+        name = customName || (first + separator + last);
+      }
+
       const email = name + separator + suffix + domain;
 
       const box = document.getElementById("emailBox");

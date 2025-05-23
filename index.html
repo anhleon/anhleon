@@ -7,12 +7,14 @@
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; max-width: 600px; }
     textarea, select, input, button { padding: 10px; font-size: 16px; }
-    textarea { height: 60px; width: 100%; margin-top: 10px;}
-    .note { color: #888; font-size: 14px; margin-bottom: 10px;}
+    textarea { height: 40px; width: 100%; margin-top: 10px; }
+    .note { color: #888; font-size: 14px; margin-bottom: 10px; }
     .section { margin-top: 30px; }
     .flex-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
     .flex-col { display: flex; flex-direction: column; gap: 10px; }
     .full-width { width: 100%; }
+    .button-wide { width: 100%; height: 50px; }
+    .textarea-small { height: 30px; }
   </style>
 </head>
 <body>
@@ -20,8 +22,8 @@
 
   <!-- Nút tạo email và hộp kết quả -->
   <div class="flex-col">
-    <button class="full-width" onclick="generateEmail()">Tạo và sao chép email</button>
-    <textarea id="emailBox" placeholder="Email sẽ hiển thị ở đây..." readonly></textarea>
+    <button class="button-wide" onclick="generateEmail()">Tạo và sao chép email</button>
+    <textarea id="emailBox" class="textarea-small" placeholder="Email sẽ hiển thị ở đây..." readonly></textarea>
   </div>
 
   <!-- Chọn cấu trúc email và loại hậu tố -->
@@ -64,7 +66,7 @@
     </div>
     <div class="flex-col full-width">
       <label for="separator">Kí tự phân cách:</label>
-      <input id="separator" type="text" class="full-width" maxlength="1" placeholder="Ví dụ: -, ., _ hoặc để trống"/>
+      <input id="separator" type="text" class="full-width" maxlength="1" placeholder="Ví dụ: -, ., _"/>
     </div>
   </div>
 

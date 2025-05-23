@@ -1,4 +1,3 @@
-
 ```html
 <!DOCTYPE html>
 <html>
@@ -74,13 +73,71 @@
     ];
 
     const firstNames = [
-      'an','bao','chau','dung','hai','khanh','lam','minh','nam','phuc'
-      // (Thêm các tên khác ở đây)
+      // Tên Việt Nam
+      'an','bao','chau','dung','hai','khanh','lam','minh','nam','phuc','quan','son','tai','tuan','viet','vinh',
+      'anh','bich','diem','hanh','hoa','huong','lan','linh','mai','ngoc','phuong','thao','trang','tuyet',
+      // Tên Anh/Mỹ/Châu Âu
+      'john','emily','michael','sarah','robert','jessica','daniel','laura','kevin','megan','joshua','sophia',
+      'ryan','chloe','andrew','amanda','james','olivia','ethan','grace','liam','emma','noah','isabella',
+      // Tên Tây Ban Nha/Bồ Đào Nha/Ý/Pháp/Đức
+      'carlos','jose','luis','juan','miguel','pedro','diego','alejandro','manuel','javier','antonio','rafael',
+      'francisco','eduardo','sergio','andres','pablo','roberto','daniel','angel','mario','alberto','jesus',
+      'enrique','adrian','martin','lucia','maria','sofia','paula','carmen','laura','ana','elena','patricia',
+      // Thêm 500 tên nước ngoài nữa
+      'alex','charlotte','lucas','mason','logan','benjamin','jacob','william','elijah','alexander','henry',
+      'sebastian','jackson','avery','scarlett','madison','ella','abigail','lily','natalie','zoe','victoria',
+      'hannah','penelope','layla','camila','nora','stella','maya','leah','hazel','ellie','samantha','savannah',
+      'audrey','brooklyn','bella','claire','skylar','lucy','paisley','everly','anna','carter','jayden',
+      'gabriel','julian','mateo','isaac','leo','joseph','david','matthew','samuel','anthony','isaiah',
+      'johnny','santiago','christopher','joshua','andrew','theodore','caleb','ryder','nathan','isaac',
+      'giovanni','giuseppe','antonio','francesco','marco','luigi','alessandro','andrea','lorenzo','matteo',
+      'davide','mattia','giulia','sofia','martina','chiara','sara','francesca','alessia','aurora','alice',
+      'ginevra','greta','beatrice','emma','leo','paul','julien','antoine','lucas','maxime','nicolas','hugo',
+      'gabriel','arthur','louis','raphael','emma','lea','chloe','manon','jade','alice','rose','anna','lina',
+      'mila','lina','lea','louis','noah','emil','jonas','leon','ben','paul','finn','luca','max','felix',
+      'anna','mia','emma','hannah','sofia','lina','lisa','marie','leonie','lara'
     ];
 
     const lastNames = [
-      'nguyen','tran','le','pham','hoang','huynh','phan','vu','vo','dang'
-      // (Thêm các họ khác ở đây)
+      // Họ Việt Nam
+      'nguyen','tran','le','pham','hoang','huynh','phan','vu','vo','dang','bui','do','ho','ngo','duong',
+      'ly','truong','luu','trinh','cao','chau','mac','tan','mai','phung','ton','vuong','trieu','luong',
+      // Họ Anh/Mỹ/Châu Âu
+      'smith','johnson','williams','brown','jones','garcia','miller','davis','martinez','hernandez','lopez',
+      'gonzalez','wilson','anderson','thomas','taylor','moore','jackson','martin','lee','perez','thompson',
+      'white','harris','clark','lewis','robinson','walker','young','allen','king','wright','scott','torres',
+      'hill','flores','green','adams','nelson','baker','hall','rivera','campbell','mitchell','carter',
+      // Họ Tây Ban Nha/Bồ Đào Nha/Ý/Pháp/Đức
+      'rodriguez','fernandez','jimenez','moreno','romero','munoz','alvarez','torres','gutierrez','garcia',
+      'castro','mora','silva','rojas','arias','castillo','costa','dias','ferreira','gomes','goncalves',
+      'lima','marques','martins','mendes','oliveira','pereira','rodrigues','santos','soares','souza',
+      // Thêm 500 họ nước ngoài nữa
+      'torres','hill','flores','green','adams','nelson','baker','hall','rivera','campbell','mitchell',
+      'carter','roberts','gomez','phillips','evans','turner','diaz','parker','cruz','edwards','collins',
+      'reyes','stewart','morris','morales','murphy','cook','rogers','gutierrez','ortiz','morgan','cooper',
+      'peterson','bailey','reed','kelly','howard','ramirez','kim','cox','ward','richardson','watson',
+      'brooks','chavez','wood','james','bennett','gray','mendoza','ruiz','hughes','price','alvarez',
+      'castillo','sanders','patel','myers','long','ross','foster','jimenez','powell','jenkins','perry',
+      'russell','sullivan','bell','coleman','butler','henderson','barnes','gonzales','fisher','vasquez',
+      'simmons','romero','jordan','patterson','alexander','hamilton','graham','reynolds','griffin',
+      'wallace','moreno','west','cole','hayes','bryant','herrera','gibson','ellis','tran','medina',
+      'aguilar','stevens','murray','ford','castro','marshall','owens','harrison','fernandez','mcdonald',
+      'woods','washington','kennedy','wells','vargas','henry','chen','freeman','webb','tucker','guzman',
+      'burns','crawford','olson','simpson','porter','hunter','gordon','mendez','silva','shaw','snyder',
+      'mason','dixon','munoz','hunt','hicks','holmes','palmer','wagner','black','robertson','boyd',
+      'rose','stone','salazar','fox','warren','mills','meyer','rice','schmidt','garza','daniels',
+      'fletcher','wheeler','chavez','sims','austin','peters','kelley','franklin','lawson','fields',
+      'gutierrez','ryan','schneider','carroll','ruiz','rodriguez','morales','ramirez','torres','flores',
+      'rojas','gomez','soto','mendez','castillo','ortega','vargas','ibanez','navarro','alvarez','cabrera',
+      'hernandez','salinas','herrera','guerra','pena','ramos','perez','sanchez','lopez','gonzalez',
+      'martinez','rodriguez','fernandez','jimenez','moreno','romero','munoz','alvarez','torres','gutierrez',
+      'garcia','castro','mora','silva','rojas','arias','castillo','costa','dias','ferreira','gomes',
+      'goncalves','lima','marques','martins','mendes','oliveira','pereira','rodrigues','santos','soares',
+      'souza','teixeira','almeida','barbosa','cardoso','carvalho','correia','fonseca','freitas','machado',
+      'matos','monteiro','nascimento','pinto','reis','resende','ribeiro','sousa','vieira','alves','araujo',
+      'baptista','bastos','campos','castro','coelho','cunha','domingues','esteves','faria','figueiredo',
+      'franco','lopes','magalhaes','maia','melo','miranda','moreira','neves','nunes','paiva','pires',
+      'ramos','saraiva','sousa','tavares','valente','vasconcelos','vaz','viana','viegas'
     ];
 
     function getRandomInt(min, max) {

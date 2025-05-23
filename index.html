@@ -206,6 +206,8 @@
       'ramos','saraiva','sousa','tavares','valente','vasconcelos','vaz','viana','viegas'
     ];
 
+    let sequentialNumber = 1; // Biến để theo dõi số thứ tự cho hậu tố
+
     function getRandomInt(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
@@ -278,9 +280,10 @@
       const useSequentialSuffix = document.getElementById("useSequentialSuffix").checked;
 
       if (useSequentialSuffix) {
-        // Tạo hậu tố theo thứ tự từ 001 đến 999
-        const sequentialNumber = Math.floor(Math.random() * 999) + 1; // Số ngẫu nhiên từ 1 đến 999
+        // Sử dụng số thứ tự cho hậu tố
         suffix = String(sequentialNumber).padStart(3, '0'); // Đảm bảo định dạng 3 chữ số
+        sequentialNumber++;
+        if (sequentialNumber > 999) sequentialNumber = 1; // Quay lại nếu vượt quá 999
       } else {
         if (suffixType === "birthyear") {
           suffix = getRandomInt(1980, 2003);

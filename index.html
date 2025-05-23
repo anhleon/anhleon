@@ -121,13 +121,6 @@
       </div>
     </div>
 
-    <!-- Tùy chọn số thứ tự cho hậu tố ngẫu nhiên -->
-    <div class="flex-col">
-      <label for="useSequentialSuffix">Sử dụng hậu tố theo thứ tự:</label>
-      <input type="checkbox" id="useSequentialSuffix" />
-      <small>(Nếu được chọn, hậu tố sẽ là số từ 001 đến 999)</small>
-    </div>
-
     <button class="full-width" onclick="generateRandomEmail()">Tạo và sao chép email ngẫu nhiên</button>
     <textarea id="randomEmailBox" class="textarea-small" placeholder="Email sẽ hiển thị ở đây..." readonly></textarea>
   </div>
@@ -206,8 +199,6 @@
       'ramos','saraiva','sousa','tavares','valente','vasconcelos','vaz','viana','viegas'
     ];
 
-    let sequentialNumber = 1; // Biến để theo dõi số thứ tự cho hậu tố
-
     function getRandomInt(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
@@ -270,28 +261,18 @@
     function generateRandomEmail() {
       const first = firstNames[Math.floor(Math.random() * firstNames.length)];
       const last = lastNames[Math.floor(Math.random() * lastNames.length)];
-      const customName = document.getElementById("randomCustomName").value.trim().toLowerCase();
       let separator = document.getElementById("randomSeparator").value.trim();
       if (separator.length > 1) separator = separator.charAt(0);
 
       const suffixType = document.getElementById("randomSuffixType").value;
       let suffix = "";
 
-      const useSequentialSuffix = document.getElementById("useSequentialSuffix").checked;
-
-      if (useSequentialSuffix) {
-        // Sử dụng số thứ tự cho hậu tố
-        suffix = String(sequentialNumber).padStart(3, '0'); // Đảm bảo định dạng 3 chữ số
-        sequentialNumber++;
-        if (sequentialNumber > 999) sequentialNumber = 1; // Quay lại nếu vượt quá 999
+      if (suffixType === "birthyear") {
+        suffix = getRandomInt(1980, 2003);
       } else {
-        if (suffixType === "birthyear") {
-          suffix = getRandomInt(1980, 2003);
-        } else {
-          const numDigits = parseInt(suffixType);
-          for (let i = 0; i < numDigits; i++) {
-            suffix += getRandomInt(0, 9).toString();
-          }
+        const numDigits = parseInt(suffixType);
+        for (let i = 0; i < numDigits; i++) {
+          suffix += getRandomInt(0, 9).toString();
         }
       }
 
@@ -300,9 +281,9 @@
       let name = "";
 
       if (structureType === "nameSuffix") {
-        name = customName || first;
+        name = first;
       } else if (structureType === "nameLastSuffix") {
-        name = customName || (first + separator + last);
+        name = first + separator + last;
       }
 
       const email = name + separator + suffix + "@" + domain;

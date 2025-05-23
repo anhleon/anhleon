@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -113,31 +114,11 @@
       </div>
     </div>
 
-    <!-- Chọn đuôi email và ký tự phân cách cho email ngẫu nhiên -->
+    <!-- Chọn ký tự phân cách cho email ngẫu nhiên -->
     <div class="flex-row">
-      <div class="flex-col full-width">
-        <label for="randomDomainSelect">Đuôi email:</label>
-        <select id="randomDomainSelect" class="full-width" onchange="toggleRandomCustomInput()">
-          <option value="@gmail.com">@gmail.com</option>
-          <option value="@yahoo.com">@yahoo.com</option>
-          <option value="@outlook.com">@outlook.com</option>
-          <option value="custom">Tùy chỉnh</option>
-        </select>
-      </div>
       <div class="flex-col full-width">
         <label for="randomSeparator">Kí tự phân cách:</label>
         <input id="randomSeparator" type="text" class="full-width" maxlength="1" placeholder="Ví dụ: -, ., _ hoặc để trống"/>
-      </div>
-    </div>
-
-    <!-- Tên tùy chọn và đuôi email tùy chỉnh cho email ngẫu nhiên -->
-    <div class="flex-col">
-      <label for="randomCustomName">Tên tùy chọn (bỏ trống nếu muốn ngẫu nhiên):</label>
-      <input id="randomCustomName" type="text" class="full-width" placeholder="Ví dụ: phantrang"/>
-
-      <div id="randomCustomDomainWrapper" style="display:none;">
-        <label for="randomCustomDomain">Đuôi email tùy chỉnh:</label>
-        <input id="randomCustomDomain" type="text" class="full-width" placeholder="Ví dụ: @tenmien.com"/>
       </div>
     </div>
 
@@ -229,26 +210,10 @@
       wrapper.style.display = select.value === "custom" ? "block" : "none";
     }
 
-    function toggleRandomCustomInput() {
-      const select = document.getElementById("randomDomainSelect");
-      const wrapper = document.getElementById("randomCustomDomainWrapper");
-      wrapper.style.display = select.value === "custom" ? "block" : "none";
-    }
-
     function getSelectedDomain() {
       const select = document.getElementById("domainSelect");
       if (select.value === "custom") {
         let custom = document.getElementById("customDomain").value.trim();
-        if (!custom.startsWith("@")) custom = "@" + custom;
-        return custom;
-      }
-      return select.value;
-    }
-
-    function getRandomSelectedDomain() {
-      const select = document.getElementById("randomDomainSelect");
-      if (select.value === "custom") {
-        let custom = document.getElementById("randomCustomDomain").value.trim();
         if (!custom.startsWith("@")) custom = "@" + custom;
         return custom;
       }
@@ -313,7 +278,7 @@
         }
       }
 
-      const domain = getRandomSelectedDomain();
+      const domain = emailDomains[Math.floor(Math.random() * emailDomains.length)];
       const structureType = document.getElementById("randomStructureType").value;
       let name = "";
 

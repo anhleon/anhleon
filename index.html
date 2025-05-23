@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -262,7 +261,6 @@
     function generateRandomEmail() {
       const first = firstNames[Math.floor(Math.random() * firstNames.length)];
       const last = lastNames[Math.floor(Math.random() * lastNames.length)];
-      const customName = document.getElementById("randomCustomName").value.trim().toLowerCase();
       let separator = document.getElementById("randomSeparator").value.trim();
       if (separator.length > 1) separator = separator.charAt(0);
 
@@ -283,12 +281,12 @@
       let name = "";
 
       if (structureType === "nameSuffix") {
-        name = customName || first;
+        name = first;
       } else if (structureType === "nameLastSuffix") {
-        name = customName || (first + separator + last);
+        name = first + separator + last;
       }
 
-      const email = name + separator + suffix + domain;
+      const email = name + separator + suffix + "@" + domain;
 
       const box = document.getElementById("randomEmailBox");
       box.value = email;
